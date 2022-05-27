@@ -1,7 +1,7 @@
 .slider {
 	width: 100%;
-	overflow: scroll;
 	display: flex;
+	overflow: hidden;
 }
 .inpDiv {
 	min-width: 100%;
