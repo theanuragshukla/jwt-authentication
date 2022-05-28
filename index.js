@@ -63,9 +63,6 @@ app.get('/dashboard',(req,res)=>{
 	res.sendFile(__dirname+'/dash.html')
 })
 
-
-
-
 app.post("/let-me-in",async (req,res)=>{
 	const query = `
 	SELECT * FROM users WHERE username = $1;
@@ -87,7 +84,7 @@ app.post("/let-me-in",async (req,res)=>{
 			res.send({status:true})
 		}
 		else{
-			res.send({status:false})
+			res.send({status:false,result:"wrong username or password"})
 		}
 	}
 })

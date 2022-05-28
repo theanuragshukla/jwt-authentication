@@ -1,7 +1,6 @@
 const signupBtn = document.getElementById("signup")
 const btn1 = document.getElementById("btnLeft")
 const btn2 = document.getElementById("btnRight")
-const error = document.getElementById("error")
 
 async function signup(){
 	const fname  = document.getElementById('fname')
@@ -96,26 +95,3 @@ window.onload=()=>{
 }
 
 
-const checkDup = async (data) => {
-	await fetch('/checkDupData', {
-		method:'POST',
-		crossdomain:true,
-		withCredentials:'ínclude',
-		headers: {
-				'Accept': 'application/json, text/plain, */*',
-				'Content-Type': 'application/json'
-			},
-
-		body:JSON.stringify(data)
-	})
-	.then(res => res.json())
-	.then(res => handleDup(res))
-}
-
-const handleDup = (data) => {
-	if(data.status){
-			
-	}else{
-
-	}
-}
