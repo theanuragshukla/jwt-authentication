@@ -1,6 +1,7 @@
 const error = document.getElementById('error')
 
-function login(){
+function login(e){
+	e.innerText="wait..."
 	const user = document.getElementById('user')
 	const pass = document.getElementById('pass')
 
@@ -21,7 +22,7 @@ fetch('/let-me-in', {
 		})
 })
 	.then(res=>res.json())
-	.then(res=>loginStatus(res.status))
+	.then(res=>loginStatus(res.status,e))
 	
 }
 
@@ -44,9 +45,13 @@ window.onload=()=>{
 
 }
 
-const loginStatus =(status)=>{
+const loginStatus =(status,btn)=>{
 	error.style.display=!status ? "initial" :"none"
 	if(status){
+		btn.innerText="redirecting..."
 		location.href='/dashboard'
+	}
+	else{
+		btn.innerText="try again"
 	}
 }
