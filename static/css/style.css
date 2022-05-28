@@ -101,3 +101,13 @@ svg {
 * {
 	overflow: hidden;
 }
+.error {
+	border: 2px solid red;
+	width: 80%;
+	text-align: center;
+	padding: 15px;
+	border-radius: 10px;
+	font-weight: 300;
+	display:none ;
+	color: red;
+}
