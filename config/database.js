@@ -1,11 +1,10 @@
 const { Pool } = require("pg");
-require("dotenv").config(); //get environment vars.
+require("dotenv").config();
 const connectionString = process.env.PSQL_CONNECTION;
 const pool = new Pool({
 	connectionString: connectionString,
 });
 
-//export query function
 module.exports = {
   query: (text, params) => pool.query(text, params),
 };

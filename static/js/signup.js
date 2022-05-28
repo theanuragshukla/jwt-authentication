@@ -1,6 +1,7 @@
 const signupBtn = document.getElementById("signup")
 const btn1 = document.getElementById("btnLeft")
 const btn2 = document.getElementById("btnRight")
+const error = document.getElementById("error")
 
 async function signup(){
 	const fname  = document.getElementById('fname')

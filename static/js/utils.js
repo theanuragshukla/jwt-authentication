@@ -49,7 +49,7 @@ function chkPass(str){
 
 async function checkAll(arr){
 	const passError = !chkPass(arr.pass)
-	const nameError = !chkName(arr.fname)
+const nameError = !chkName(arr.fname)
 	const emailError = !chkEmail(arr.email)
 	const userError = !validUser(arr.user)
 	if(passError || nameError || emailError || userError){
@@ -58,3 +58,10 @@ async function checkAll(arr){
 		return true
 	}
 } 
+
+const loginStatus =(status)=>{
+	error.style.display=!status ? "initial" :"none"
+	if(status){
+		location.href='/dashboard'
+	}
+}

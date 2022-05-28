@@ -84,7 +84,7 @@ app.post("/let-me-in",async (req,res)=>{
 			res.send({status:true})
 		}
 		else{
-			res.send({status:false,result:"wrong username or password"})
+			res.send({status:false})
 		}
 	}
 })

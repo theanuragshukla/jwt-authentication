@@ -1,3 +1,4 @@
+const error = document.getElementById('error')
 function login(){
 	const user = document.getElementById('user')
 	const pass = document.getElementById('pass')
@@ -19,7 +20,7 @@ fetch('/let-me-in', {
 		})
 })
 	.then(res=>res.json())
-	.then(res=>res.status ? location.href="/dashboard" : alert(res.result))
+	.then(res=>loginStatus(res.status))
 	
 }
 
