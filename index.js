@@ -72,7 +72,6 @@ app.post("/let-me-in",async (req,res)=>{
 	if(rows.length==0){
 		res.send({status:false,result:"wrong username or password"})
 	}else{
-		console.log(rows)
 		const match = await bcrypt.compare(req.body.pass, rows[0].pass)
 		if(match){
 		const token = jwt.sign({
@@ -107,6 +106,19 @@ app.get('/checkAuth',async (req,res)=>{
 		}
 		:{}
 	})
+})
+
+app.post('/checkDup', async (req,res)=>{
+	const toCheck=req.body.email ? "email" : "username"
+		const query = `SELECT * FROM users WHERE ${toCheck} = $1;`;
+	const value = [req.body.data];
+	const dups = await db.query(query, value);
+	if( dups.rows.length!=0){
+		res.status(200).send({status:false})
+		return
+	}else 
+		res.status(200).send({status:true})
+
 })
 
 function generateUid() {
@@ -147,6 +159,7 @@ const verifyToken = async (authToken)=>{
 		return {result:false}
 	}
 }
+
 
 
 

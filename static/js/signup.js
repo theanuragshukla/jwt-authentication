@@ -1,13 +1,37 @@
 const signupBtn = document.getElementById("signup")
 const btn1 = document.getElementById("btnLeft")
 const btn2 = document.getElementById("btnRight")
+const fname  = document.getElementById('fname')
+const lname  = document.getElementById('lname')
+const email = document.getElementById('email')
+const user = document.getElementById('user')
+const pass = document.getElementById('pass')
+const error = document.getElementById('error')
 
 async function signup(){
-	const fname  = document.getElementById('fname')
-	const lname  = document.getElementById('lname')
-	const email = document.getElementById('email')
-	const user = document.getElementById('user')
-	const pass = document.getElementById('pass')
+	const res = validUser(user.value) 
+	error.innerHTML=res ? "" : "enter a valid username"
+	validateStatus(res)
+	if(!res)return
+	var dupUser =await fetch('/checkDup', {
+		method: 'POST',
+		headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			},
+			
+		crossdomain: true,
+		withCredentials:'include',
+		body:JSON.stringify({email:false,data:user.value})
+	})
+		.then(response => response.json())
+		dupUser=!dupUser.status
+
+	if(dupUser){
+		error.innerHTML="username already in use"
+		validateStatus(false)
+		return 
+	}
 
 	const data = {
 		fname:fname.value,
@@ -35,12 +59,10 @@ async function signup(){
 			.then(res=>{
 				if(res.status){
 					alert('account created successfully! please login')
+					location.href='/'
 				}else{
-					if(res.email){
-						alert(res.result)
-					}else if(res.user){
-						alert(res.result)
-					}
+					alert("some error occoured")
+					location.href='/'
 				}
 			}
 			)
@@ -58,10 +80,54 @@ const inpDiv2 = document.getElementById("inpDiv2");
 const inpDiv3 = document.getElementById("inpDiv3");
 inpDiv3.style.display="none"
 inpDiv2.style.display="none"
-function slideInp(dir){
+
+const validateOnSpot =async (state) => {
+	if(state==1){
+		const res = chkName(fname.value)
+		error.innerHTML=res ? "" : "enter a valid name"
+		validateStatus(res)
+		return res
+	}
+	else if(state==2){
+		const resEmail = chkEmail(email.value)
+		const resPass = chkPass(pass.value)
+		if(!resEmail){
+			error.innerHTML="enter a valid email"
+			validateStatus(resEmail)
+			return resEmail
+		}
+		var dupEmail=await fetch('/checkDup', {
+			method: 'POST',
+			crossdomain: true,
+			withCredentials:'include',
+			headers: {
+				'Accept': 'application/json, text/plain, */*',
+				'Content-Type': 'application/json'
+			},
+			body:JSON.stringify({email:true,data:email.value})
+		}).then(response => response.json())
+		dupEmail=!dupEmail.status
+		if(dupEmail){
+			error.innerHTML="email already in use"
+			validateStatus(false)
+			return false
+		}
+
+		error.innerHTML=resPass ? "" : "enter a valid password"
+		validateStatus(resPass)
+		return resPass
+
+
+	}
+}
+
+async function slideInp(dir){
 	if(dir==-1){
 		pos=(pos==1)?pos:pos-1
 	}else if(dir==1){
+		if(! await validateOnSpot(pos)){
+			return
+		}
 		pos=(pos==3)?pos:pos+1
 	}
 	signupBtn.style.display=pos==3 ? "initial" : "none";
@@ -94,4 +160,6 @@ window.onload=()=>{
 
 }
 
-
+const validateStatus =(status)=>{
+	error.style.display=!status ? "initial" :"none"
+}
